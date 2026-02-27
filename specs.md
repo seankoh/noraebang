@@ -54,39 +54,24 @@ Noraebang (노래방) is a web-based karaoke platform inspired by the YouTube fo
 - Trending searches section
 
 ### 5. User Accounts
-- Sign up / log in (email, Google OAuth, Kakao OAuth)
+- Sign up / log in (email + password)
 - User profile page:
   - Display name, avatar, bio
-  - Uploaded performances
-  - Liked tracks and playlists
-  - Followers / following count
-- Public and private profile options
+  - Uploaded tracks
+  - Liked tracks
 
-### 6. Social & Community
-- Like, comment, and share tracks and performances
-- Follow other singers
-- Duet mode: record over another user's performance
-- Challenge system: users respond to a song challenge
-- Leaderboard: top singers by likes, views, or score
+### 6. Social
+- Like and comment on tracks
+- Share track link
 
 ### 7. Content Upload
-- Upload backing track (audio/video) with lyrics file (LRC or SRT format)
-- Lyrics sync editor (manual timing adjustment in-browser)
-- Thumbnail upload and auto-generation
-- Metadata: title, artist, language, genre, tags
-- Copyright / licensing declaration on upload
+- Upload backing track (video file or YouTube URL) with LRC lyrics file
+- Metadata: title, artist, genre, language
+- Stored locally on server filesystem
 
 ### 8. Playlists
 - Create and manage personal playlists
-- Public and private playlists
-- Collaborative playlists (multiple contributors)
-- Auto-generated playlists (by mood, genre, language)
-
-### 9. Notifications
-- New followers, likes, comments
-- Trending tracks in followed categories
-- Duet and challenge invitations
-- In-app and email notifications
+- Add/remove tracks from playlist
 
 ---
 
@@ -94,18 +79,17 @@ Noraebang (노래방) is a web-based karaoke platform inspired by the YouTube fo
 
 | Layer         | Technology                              |
 |---------------|-----------------------------------------|
-| Frontend      | Next.js (React), TypeScript             |
-| Styling       | Tailwind CSS                            |
-| State Mgmt    | Zustand or React Query                  |
-| Video Player  | Video.js or custom HTML5 player         |
-| Audio         | Web Audio API (mic input, mixing)       |
+| Frontend      | HTML, CSS, Vanilla JavaScript           |
+| Styling       | Tailwind CSS (via CDN)                  |
+| Video Player  | HTML5 `<video>` + YouTube iframe embed  |
+| Audio         | Web Audio API (mic input)               |
 | Lyrics Sync   | LRC parser + requestAnimationFrame      |
-| Backend       | Node.js + Express or Next.js API routes |
-| Database      | PostgreSQL (users, tracks, metadata)    |
-| File Storage  | S3-compatible (videos, audio, avatars)  |
-| Auth          | NextAuth.js                             |
-| Search        | Elasticsearch or Algolia                |
-| Deployment    | Vercel (frontend) + Railway/Fly.io (API)|
+| Backend       | Node.js + Express                       |
+| Database      | SQLite via better-sqlite3               |
+| File Storage  | Local filesystem (`/uploads` folder)    |
+| Auth          | express-session + bcrypt (email/password)|
+| Search        | SQLite full-text search (FTS5)          |
+| Deployment    | Single server / VPS (Node process)      |
 
 ---
 
@@ -160,7 +144,7 @@ Noraebang (노래방) is a web-based karaoke platform inspired by the YouTube fo
 
 The minimum viable product will focus on:
 
-1. User authentication (email + Google)
+1. User authentication (email + password)
 2. Track listing and search
 3. Track player with video and synchronized LRC lyrics
 4. Mic input and basic recording
