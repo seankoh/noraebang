@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>노래방 — Noraebang</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #030712; }
+    .pill.active { background-color: #f59e0b; color: #000; }
+    .track-card:hover .track-thumb { transform: scale(1.05); }
+    .track-thumb { transition: transform 0.2s; }
+    .skeleton { background: linear-gradient(90deg, #1f2937 25%, #374151 50%, #1f2937 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+  </style>
+</head>
+<body class="text-gray-100 min-h-screen">
+
+  <!-- Navbar -->
+  <nav class="sticky top-0 z-50 bg-gray-900/90 backdrop-blur border-b border-gray-800 px-4 py-3">
+    <div class="max-w-7xl mx-auto flex items-center gap-4">
+      <a href="/" class="text-2xl font-bold text-amber-400 shrink-0">노래방</a>
+      <form action="/search.html" class="flex-1 max-w-xl" method="get">
+        <input name="q" type="search" placeholder="Search songs, artists..."
+          class="w-full bg-gray-800 rounded-full px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-amber-400 text-white placeholder-gray-500">
+      </form>
+      <div id="admin-links" class="hidden items-center gap-4">
+        <a href="/upload.html" class="text-sm font-medium text-amber-400 hover:text-amber-300">+ Upload</a>
+        <a href="/admin.html" class="text-sm font-medium text-gray-400 hover:text-white">Dashboard</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-7xl mx-auto px-4 py-6">
+    <!-- Filters -->
+    <div class="flex flex-wrap gap-2 mb-4">
+      <span class="text-xs text-gray-500 self-center mr-2">Genre</span>
+      <button class="pill text-xs px-3 py-1 rounded-full bg-gray-800 hover:bg-gray-700 active" data-filter="genre" data-value="">All</button>
+      <button class="pill text-xs px-3 py-1 rounded-full bg-gray-800 hover:bg-gray-700" data-filter="genre" data-value="K-Pop">K-Pop</button>
+      <button class="pill text-xs px-3 py-1 rounded-full bg-gray-800 hover:bg-gray-700" data-filter="genre" data-value="Pop">Pop</button>
+      <button class="pill text-xs px-3 py-1 rounded-full bg-gray-800 hover:bg-gray-700" data-filter="genre" data-value="R&B">R&B</button>
+      <button class="pill text-xs px-3 py-1 rounded-full bg-gray-800 hover:bg-gray-700" data-filter="genre" data-value="Rock">Rock</button>
+      <button class="pill text-xs px-3 py-1 rounded-full bg-gray-800 hover:bg-gray-700" data-filter="genre" data-value="Ballad">Ballad</button>
+      <button class="pill text-xs px-3 py-1 rounded-full bg-gray-800 hover:bg-gray-700" data-filter="genre" data-value="Jazz">Jazz</button>
+    </div>
+    <div class="flex flex-wrap gap-2 mb-4">
+      <span class="text-xs text-gray-500 self-center mr-2">Language</span>
+      <button class="pill text-xs px-3 py-1 rounded-full bg-gray-800 hover:bg-gray-700 active" data-filter="language" data-value="">All</button>
+      <button class="pill text-xs px-3 py-1 rounded-full bg-gray-800 hover:bg-gray-700" data-filter="language" data-value="Korean">Korean</button>
+      <button class="pill text-xs px-3 py-1 rounded-full bg-gray-800 hover:bg-gray-700" data-filter="language" data-value="English">English</button>
+      <button class="pill text-xs px-3 py-1 rounded-full bg-gray-800 hover:bg-gray-700" data-filter="language" data-value="Japanese">Japanese</button>
+      <button class="pill text-xs px-3 py-1 rounded-full bg-gray-800 hover:bg-gray-700" data-filter="language" data-value="Chinese">Chinese</button>
+    </div>
+    <div class="flex gap-2 mb-6">
+      <span class="text-xs text-gray-500 self-center mr-2">Sort</span>
+      <button class="pill text-xs px-3 py-1 rounded-full bg-gray-800 hover:bg-gray-700 active" data-filter="sort" data-value="newest">Newest</button>
+      <button class="pill text-xs px-3 py-1 rounded-full bg-gray-800 hover:bg-gray-700" data-filter="sort" data-value="views">Most Viewed</button>
+    </div>
+
+    <!-- Track Grid -->
+    <div id="track-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
+    <div id="empty-state" class="hidden text-center py-20 text-gray-500">
+      <div class="text-5xl mb-4">🎤</div>
+      <p class="text-lg">No tracks yet</p>
+      <p class="text-sm mt-2">Check back later or <a href="/upload.html" class="text-amber-400 hover:underline">upload a track</a></p>
+    </div>
+    <div id="sentinel" class="h-8"></div>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/home.js"></script>
+</body>
+</html>
