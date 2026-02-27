@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login — 노래방</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>body { background-color: #030712; }</style>
+</head>
+<body class="text-gray-100 min-h-screen flex items-center justify-center">
+  <div class="w-full max-w-sm px-6">
+    <div class="text-center mb-8">
+      <a href="/" class="text-4xl font-bold text-amber-400">노래방</a>
+      <p class="text-gray-500 mt-2 text-sm">Admin login</p>
+    </div>
+
+    <form id="login-form" class="bg-gray-900 rounded-2xl p-6 space-y-4">
+      <div>
+        <label class="block text-sm text-gray-400 mb-1">Username</label>
+        <input id="username" name="username" type="text" autocomplete="username"
+          class="w-full bg-gray-800 rounded-lg px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-amber-400 text-sm">
+      </div>
+      <div>
+        <label class="block text-sm text-gray-400 mb-1">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password"
+          class="w-full bg-gray-800 rounded-lg px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-amber-400 text-sm">
+      </div>
+      <p id="error-msg" class="text-red-400 text-sm hidden"></p>
+      <button type="submit" id="submit-btn"
+        class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-black font-semibold rounded-lg text-sm transition">
+        Sign in
+      </button>
+    </form>
+
+    <p class="text-center mt-4 text-sm text-gray-600">
+      <a href="/" class="text-gray-500 hover:text-white">← Back to home</a>
+    </p>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/login.js"></script>
+</body>
+</html>
