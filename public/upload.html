@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Track — 노래방</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #030712; }
+    .drop-zone { transition: border-color 0.2s, background-color 0.2s; }
+    .drop-zone.drag-over { border-color: #f59e0b; background-color: #1c1a0f; }
+    .drop-zone.has-file { border-color: #22c55e; background-color: #0a1f0a; }
+  </style>
+</head>
+<body class="text-gray-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-gray-900/90 backdrop-blur border-b border-gray-800 px-4 py-3">
+    <div class="max-w-7xl mx-auto flex items-center gap-4">
+      <a href="/" class="text-2xl font-bold text-amber-400">노래방</a>
+      <div class="flex-1"></div>
+      <a href="/admin.html" class="text-sm text-gray-400 hover:text-white">Dashboard</a>
+      <button id="logout-btn" class="text-sm text-gray-500 hover:text-white">Logout</button>
+    </div>
+  </nav>
+
+  <main class="max-w-2xl mx-auto px-4 py-10">
+    <h1 class="text-2xl font-bold text-white mb-8">Upload New Track</h1>
+
+    <form id="upload-form" class="space-y-6">
+      <!-- Video drop zone -->
+      <div>
+        <label class="block text-sm font-medium text-gray-300 mb-2">Video File <span class="text-red-400">*</span></label>
+        <div id="video-drop" class="drop-zone border-2 border-dashed border-gray-700 rounded-xl p-8 text-center cursor-pointer hover:border-gray-500">
+          <div class="text-4xl mb-2">🎬</div>
+          <p class="text-gray-400 text-sm">Drag & drop video or <span class="text-amber-400">click to browse</span></p>
+          <p class="text-gray-600 text-xs mt-1">MP4, WebM — max 2 GB</p>
+          <p id="video-filename" class="mt-2 text-green-400 text-sm hidden"></p>
+          <input id="video-input" type="file" name="video" accept="video/mp4,video/webm" class="hidden">
+        </div>
+      </div>
+
+      <!-- LRC drop zone -->
+      <div>
+        <label class="block text-sm font-medium text-gray-300 mb-2">LRC Lyrics File <span class="text-gray-500">(optional)</span></label>
+        <div id="lrc-drop" class="drop-zone border-2 border-dashed border-gray-700 rounded-xl p-6 text-center cursor-pointer hover:border-gray-500">
+          <div class="text-3xl mb-1">🎵</div>
+          <p class="text-gray-400 text-sm">Drag & drop .lrc file or <span class="text-amber-400">click to browse</span></p>
+          <p id="lrc-filename" class="mt-2 text-green-400 text-sm hidden"></p>
+          <input id="lrc-input" type="file" name="lrc" accept=".lrc,text/plain" class="hidden">
+        </div>
+      </div>
+
+      <!-- Metadata -->
+      <div class="grid grid-cols-2 gap-4">
+        <div class="col-span-2">
+          <label class="block text-sm font-medium text-gray-300 mb-1">Title <span class="text-red-400">*</span></label>
+          <input name="title" type="text" maxlength="200" placeholder="Song title"
+            class="w-full bg-gray-800 rounded-lg px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-amber-400 text-sm">
+        </div>
+        <div class="col-span-2">
+          <label class="block text-sm font-medium text-gray-300 mb-1">Artist <span class="text-red-400">*</span></label>
+          <input name="artist" type="text" maxlength="200" placeholder="Artist / performer"
+            class="w-full bg-gray-800 rounded-lg px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-amber-400 text-sm">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1">Genre</label>
+          <select name="genre" class="w-full bg-gray-800 rounded-lg px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-amber-400 text-sm">
+            <option value="">— Select genre —</option>
+            <option>K-Pop</option><option>Pop</option><option>R&B</option>
+            <option>Rock</option><option>Ballad</option><option>Jazz</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1">Language</label>
+          <select name="language" class="w-full bg-gray-800 rounded-lg px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-amber-400 text-sm">
+            <option value="">— Select language —</option>
+            <option>Korean</option><option>English</option><option>Japanese</option><option>Chinese</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Progress -->
+      <div id="progress-wrap" class="hidden">
+        <div class="flex justify-between text-sm text-gray-400 mb-1">
+          <span>Uploading...</span>
+          <span id="progress-pct">0%</span>
+        </div>
+        <div class="w-full bg-gray-800 rounded-full h-2">
+          <div id="progress-bar" class="bg-amber-500 h-2 rounded-full transition-all" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <p id="upload-error" class="text-red-400 text-sm hidden"></p>
+
+      <!-- Success -->
+      <div id="success-msg" class="hidden bg-gray-900 rounded-xl p-5 text-center">
+        <div class="text-4xl mb-2">🎉</div>
+        <p class="font-semibold text-white">Track uploaded!</p>
+        <div class="flex gap-3 justify-center mt-4">
+          <a id="view-track-link" href="#" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-black rounded-lg text-sm font-medium">View Track</a>
+          <button id="upload-another" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg text-sm">Upload Another</button>
+        </div>
+      </div>
+
+      <button type="submit" id="submit-btn"
+        class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-black font-bold rounded-xl text-sm transition">
+        Upload Track
+      </button>
+    </form>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/upload.js"></script>
+</body>
+</html>
