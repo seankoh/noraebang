@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search — 노래방</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>body { background-color: #030712; }</style>
+</head>
+<body class="text-gray-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-gray-900/90 backdrop-blur border-b border-gray-800 px-4 py-3">
+    <div class="max-w-7xl mx-auto flex items-center gap-4">
+      <a href="/" class="text-2xl font-bold text-amber-400 shrink-0">노래방</a>
+      <form id="search-form" class="flex-1 max-w-xl flex gap-2" method="get">
+        <input id="search-input" name="q" type="search" placeholder="Search songs, artists..."
+          class="flex-1 bg-gray-800 rounded-full px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-amber-400 text-white placeholder-gray-500">
+        <button type="submit" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-black rounded-full text-sm font-medium transition">Search</button>
+      </form>
+      <div id="admin-links" class="hidden items-center gap-4">
+        <a href="/upload.html" class="text-sm font-medium text-amber-400 hover:text-amber-300">+ Upload</a>
+        <a href="/admin.html" class="text-sm font-medium text-gray-400 hover:text-white">Dashboard</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-7xl mx-auto px-4 py-6">
+    <p id="result-info" class="text-gray-400 text-sm mb-4"></p>
+    <div id="result-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
+    <div id="empty-state" class="hidden text-center py-20 text-gray-500">
+      <div class="text-5xl mb-4">🔍</div>
+      <p class="text-lg">No results found</p>
+      <p class="text-sm mt-2 text-gray-600">Try a different search term</p>
+    </div>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/search.js"></script>
+</body>
+</html>
