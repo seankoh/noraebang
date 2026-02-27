@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — 노래방</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>body { background-color: #030712; }</style>
+</head>
+<body class="text-gray-100 min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-gray-900/90 backdrop-blur border-b border-gray-800 px-4 py-3">
+    <div class="max-w-7xl mx-auto flex items-center gap-4">
+      <a href="/" class="text-2xl font-bold text-amber-400">노래방</a>
+      <span class="text-gray-600">|</span>
+      <span class="text-sm text-gray-400">Admin Dashboard</span>
+      <div class="flex-1"></div>
+      <a href="/upload.html" class="text-sm font-medium text-amber-400 hover:text-amber-300">+ Upload</a>
+      <a href="/" class="text-sm text-gray-400 hover:text-white">View Site</a>
+      <button id="logout-btn" class="text-sm text-gray-500 hover:text-red-400 transition">Logout</button>
+    </div>
+  </nav>
+
+  <main class="max-w-7xl mx-auto px-4 py-6">
+    <!-- Stats -->
+    <div id="stats-bar" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      <div class="bg-gray-900 rounded-xl p-4 text-center">
+        <p class="text-2xl font-bold text-amber-400" id="stat-tracks">—</p>
+        <p class="text-xs text-gray-500 mt-1">Tracks</p>
+      </div>
+      <div class="bg-gray-900 rounded-xl p-4 text-center">
+        <p class="text-2xl font-bold text-amber-400" id="stat-views">—</p>
+        <p class="text-xs text-gray-500 mt-1">Total Views</p>
+      </div>
+      <div class="bg-gray-900 rounded-xl p-4 text-center">
+        <p class="text-2xl font-bold text-amber-400" id="stat-likes">—</p>
+        <p class="text-xs text-gray-500 mt-1">Total Likes</p>
+      </div>
+      <div class="bg-gray-900 rounded-xl p-4 text-center">
+        <p class="text-2xl font-bold text-amber-400" id="stat-comments">—</p>
+        <p class="text-xs text-gray-500 mt-1">Total Comments</p>
+      </div>
+    </div>
+
+    <h2 class="text-lg font-semibold text-white mb-4">All Tracks</h2>
+
+    <!-- Track table -->
+    <div class="bg-gray-900 rounded-xl overflow-hidden">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b border-gray-800 text-gray-500 text-xs uppercase">
+            <th class="text-left px-4 py-3">Track</th>
+            <th class="text-left px-4 py-3 hidden md:table-cell">Genre</th>
+            <th class="text-left px-4 py-3 hidden md:table-cell">Language</th>
+            <th class="text-right px-4 py-3">Views</th>
+            <th class="text-right px-4 py-3 hidden sm:table-cell">Likes</th>
+            <th class="text-right px-4 py-3">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="track-table-body"></tbody>
+      </table>
+      <p id="no-tracks" class="text-center text-gray-600 py-10 hidden">No tracks uploaded yet</p>
+    </div>
+  </main>
+
+  <!-- Edit Modal -->
+  <div id="edit-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4">
+    <div class="bg-gray-900 rounded-2xl p-6 w-full max-w-md space-y-4">
+      <h3 class="font-semibold text-white">Edit Track</h3>
+      <input type="hidden" id="edit-id">
+      <div>
+        <label class="text-xs text-gray-400">Title</label>
+        <input id="edit-title" type="text" class="w-full mt-1 bg-gray-800 rounded-lg px-3 py-2 text-white text-sm outline-none focus:ring-2 focus:ring-amber-400">
+      </div>
+      <div>
+        <label class="text-xs text-gray-400">Artist</label>
+        <input id="edit-artist" type="text" class="w-full mt-1 bg-gray-800 rounded-lg px-3 py-2 text-white text-sm outline-none focus:ring-2 focus:ring-amber-400">
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-xs text-gray-400">Genre</label>
+          <select id="edit-genre" class="w-full mt-1 bg-gray-800 rounded-lg px-3 py-2 text-white text-sm outline-none focus:ring-2 focus:ring-amber-400">
+            <option value="">—</option>
+            <option>K-Pop</option><option>Pop</option><option>R&B</option>
+            <option>Rock</option><option>Ballad</option><option>Jazz</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs text-gray-400">Language</label>
+          <select id="edit-language" class="w-full mt-1 bg-gray-800 rounded-lg px-3 py-2 text-white text-sm outline-none focus:ring-2 focus:ring-amber-400">
+            <option value="">—</option>
+            <option>Korean</option><option>English</option><option>Japanese</option><option>Chinese</option>
+          </select>
+        </div>
+      </div>
+      <p id="edit-error" class="text-red-400 text-xs hidden"></p>
+      <div class="flex gap-2 pt-2">
+        <button id="edit-save-btn" class="flex-1 py-2 bg-amber-500 hover:bg-amber-400 text-black font-semibold rounded-lg text-sm transition">Save</button>
+        <button id="edit-cancel-btn" class="flex-1 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg text-sm transition">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>
